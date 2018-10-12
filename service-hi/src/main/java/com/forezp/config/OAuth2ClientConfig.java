@@ -15,12 +15,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * Created by forezp on 2017/5/31.
  */
 
-@EnableOAuth2Client
+@EnableOAuth2Client // 开启 OAUth   Client
 @EnableConfigurationProperties
 @Configuration
 public class OAuth2ClientConfig {
 
 
+    /**
+     * 该bean是通过读取配置文件中前缀为  "security.oauth2.client" 的配置来获取Bean的属性的
+     * @return
+     */
     @Bean
     @ConfigurationProperties(prefix = "security.oauth2.client")
     public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
@@ -37,6 +41,10 @@ public class OAuth2ClientConfig {
         return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(), clientCredentialsResourceDetails());
     }
 
+    /**
+     * 向用户uaa服务请求的类型
+     * @return
+     */
     @Bean
     public OAuth2RestTemplate clientCredentialsRestTemplate() {
         return new OAuth2RestTemplate(clientCredentialsResourceDetails());

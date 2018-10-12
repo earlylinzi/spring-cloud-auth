@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by fangzhipeng on 2017/5/10.
+ * 实现了UserDetailsService接口  并使用BCryptPasswordEncoder对密码进行加密
  */
 @Service
 public class UserServiceDetail implements UserDetailsService {

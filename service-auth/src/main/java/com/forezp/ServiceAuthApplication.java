@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@EnableResourceServer
+@EnableResourceServer // 开启Resource server
 @EnableEurekaClient
 public class ServiceAuthApplication {
 	@Autowired
@@ -31,13 +31,20 @@ public class ServiceAuthApplication {
 	}
 
 
+	/**
+	 * 在任何实现了AuthorizationServerConfigurer接口的类上加上EnableAuthorizationServer注解  开启Authorization Server 功能
+	 * 以Bean的形式  注入到Ioc容器中
+	 * 需要实现3个配置  也就是重写的3个方法
+	 * AuthorizationServerConfigurerAdapter实现了接口AuthorizationServerConfigurer（空实现）
+	 *
+	 */
 	@Configuration
 	@EnableAuthorizationServer
 	protected  class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-		//private TokenStore tokenStore = new InMemoryTokenStore();
+		//private TokenStore tokenStore = new InMemoryTokenStore();// token存在内存中
 
-		JdbcTokenStore tokenStore=new JdbcTokenStore(dataSource);
+		JdbcTokenStore tokenStore=new JdbcTokenStore(dataSource);// toekn 存在数据库中
 
 		@Autowired
 		@Qualifier("authenticationManagerBean")
@@ -47,6 +54,9 @@ public class ServiceAuthApplication {
 		private UserServiceDetail userServiceDetail;
 
 
+		/**
+		 * ClientDetailsServiceConfigurer  配置客户端信息
+		 */
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
@@ -57,24 +67,30 @@ public class ServiceAuthApplication {
 					.and()
 					.withClient("service-hi")
 					.secret("123456")
-					.authorizedGrantTypes("client_credentials", "refresh_token","password")
+					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server");
 
 		}
 
+		/**
+		 * AuthorizationServerEndpointsConfigurer 配置授权Token的节点和Token服务
+		 */
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 			endpoints
-					.tokenStore(tokenStore)
-					.authenticationManager(authenticationManager)
-					.userDetailsService(userServiceDetail);
+					.tokenStore(tokenStore)//  采用JdbcTokenStore
+					.authenticationManager(authenticationManager) // 验证管理
+					.userDetailsService(userServiceDetail);// 读取用户信息
 		}
 
+		/**
+		 * AuthorizationServerSecurityConfigurer  配置token节点的安全策略
+		 */
 		@Override
 		public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 			oauthServer
-					.tokenKeyAccess("permitAll()")
-					.checkTokenAccess("isAuthenticated()");
+					.tokenKeyAccess("permitAll()")// 获取token的策略  本案例中对获取token接口不拦截
+					.checkTokenAccess("isAuthenticated()");// 配置了检查Token策略
 
 		}
 	}
