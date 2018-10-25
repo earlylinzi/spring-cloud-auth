@@ -20,6 +20,17 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @Configuration
 public class OAuth2ClientConfig {
 
+    //        BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails =  new BaseOAuth2ProtectedResourceDetails();
+//        baseOAuth2ProtectedResourceDetails.setClientId("restapp");
+//        baseOAuth2ProtectedResourceDetails.setClientSecret("restapp");
+//        baseOAuth2ProtectedResourceDetails.setGrantType("password");
+//// how to set user name and password ???
+//
+//        DefaultAccessTokenRequest accessTokenRequest = new DefaultAccessTokenRequest();
+//        OAuth2ClientContext oAuth2ClientContext = new DefaultOAuth2ClientContext(accessTokenRequest());
+//
+//        OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(baseOAuth2ProtectedResourceDetails,oAuth2ClientContext);
+
 
     /**
      * 该bean是通过读取配置文件中前缀为  "security.oauth2.client" 的配置来获取Bean的属性的

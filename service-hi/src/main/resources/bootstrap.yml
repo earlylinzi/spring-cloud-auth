@@ -21,11 +21,11 @@ spring:
 security:
   oauth2:
     resource:
-      user-info-uri: http://localhost:5000/uaa/users/current
+      user-info-uri: http://localhost:5000/users/current
 
     client:
       clientId: service-hi
       clientSecret: 123456
-      accessTokenUri: http://localhost:5000/uaa/oauth/token
-      grant-type: client_credentials,password
+      accessTokenUri: http://localhost:5000/oauth/token
+      grant-type: client_credentials
       scope: server

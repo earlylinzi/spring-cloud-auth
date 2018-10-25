@@ -26,6 +26,10 @@ public class ServiceAuthApplication {
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
+
+
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(ServiceAuthApplication.class, args);
 	}
@@ -54,21 +58,24 @@ public class ServiceAuthApplication {
 		private UserServiceDetail userServiceDetail;
 
 
+
+
 		/**
 		 * ClientDetailsServiceConfigurer  配置客户端信息
 		 */
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+			clients.jdbc(dataSource);
 
-			clients.inMemory()
-					.withClient("browser")
-					.authorizedGrantTypes("refresh_token", "password")
-					.scopes("ui")
-					.and()
-					.withClient("service-hi")
-					.secret("123456")
-					.authorizedGrantTypes("client_credentials", "refresh_token")
-					.scopes("server");
+//			clients.inMemory()
+//					.withClient("browser")
+//					.authorizedGrantTypes("refresh_token", "password")
+//					.scopes("ui")
+//					.and()
+//					.withClient("service-hi")
+//					.secret("123456")
+//					.authorizedGrantTypes("client_credentials", "refresh_token")
+//					.scopes("server");
 
 		}
 

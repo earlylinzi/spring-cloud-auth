@@ -2,9 +2,13 @@ package com.forezp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +23,10 @@ import java.security.Principal;
 @RestController
 public class HiController {
     Logger logger= LoggerFactory.getLogger(HiController.class);
+
+    @Autowired
+    private OAuth2RestTemplate clientCredentialsRestTemplate;
+
 
     @Value("${server.port}")
     String port;
@@ -47,4 +55,16 @@ public class HiController {
         return oAuth2Authentication;
 
     }
+
+    @RequestMapping("/getMyAccessToken")
+    public String getAccessToken (){
+        OAuth2AccessToken accessToken = clientCredentialsRestTemplate.getAccessToken();
+        return String.valueOf(1111111);
+
+
+
+
+    }
+
+
 }
